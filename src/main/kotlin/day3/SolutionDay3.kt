@@ -2,17 +2,24 @@ package day3
 
 
 fun computeDistanceFor(number: Int): Int {
-    var value = 1
-    var x = 0
-    var y = 0
-    var currentStep = 1
+    var diagonal = Math.sqrt(number.toDouble()).toInt()
+    if (diagonal % 2 == 0)
+        diagonal--
+    var value = diagonal * diagonal
+    val tmp = diagonal / 2
+    var x = tmp
+    var y = -x
+    var currentStep = x
 
     fun computeManhattanDistance() = Math.abs(x) + Math.abs(y)
 
+    if (value == number)
+        return computeManhattanDistance()
     while (true) {
         val rightAppend = currentStep % 2 == 1
 
-        x += if (rightAppend) 1 else -1
+        x += if (rightAppend) -1 else 1
+        // y += if (rightAppend) -1 else 1
         value++
 
         if (value == number)
@@ -20,14 +27,14 @@ fun computeDistanceFor(number: Int): Int {
 
         repeat(currentStep)
         {
-            y += if (rightAppend) 1 else -1
+            y += if (rightAppend) -1 else 1
             value++
             if (value == number)
                 return computeManhattanDistance()
         }
         repeat(currentStep)
         {
-            x += if (rightAppend) -1 else 1
+            x += if (rightAppend) 1 else -1
             value++
             if (value == number)
                 return computeManhattanDistance()
@@ -44,6 +51,7 @@ fun computeCheckSumBiggerThan(number: Int): Int {
     var currentStep = 1
 
     data class Position(val x: Int, val y: Int)
+
     val checkSums = mutableMapOf(Position(x, y) to value)
 
     fun updateCheckSumCache(): Int {
@@ -107,7 +115,6 @@ private fun task1(address: Int) {
 }
 
 private fun solve() {
-
     val input = 347991
     task1(input)
     task2(input)
