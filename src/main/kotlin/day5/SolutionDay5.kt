@@ -24,11 +24,7 @@ private fun jump(jumps: MutableList<Int>, offsetFunction: (Int) -> Int = { 1 }):
         jumps[currentPosition] += offsetFunction(offset)
         val jump = currentPosition + offset
         steps++
-
-        if (jump in range)
-            currentPosition = jump
-        else
-            break
+        currentPosition = jump
     }
     return steps
 }
