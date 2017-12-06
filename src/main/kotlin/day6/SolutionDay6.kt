@@ -2,7 +2,6 @@ package day6
 
 import utils.getLineFromResource
 
-
 class MemoryBank(private val bank: MutableList<Int>) {
 
     private fun getMaxPair(): Pair<Int, Int> {
@@ -29,10 +28,16 @@ class MemoryBank(private val bank: MutableList<Int>) {
 
             var currentIndex = max.first
             var portion = max.second
-            while (portion > 0) {
 
-                portion -= 1
-                currentIndex = (currentIndex + 1) % bank.size
+            val bankSize = bank.size
+            val value = portion / bankSize
+            if (value > 0) {
+                for (i in 0 until bankSize)
+                    bank[i] += value
+                portion -= value * bankSize
+            }
+            for (i in 0 until portion) {
+                currentIndex = (currentIndex + 1) % bankSize
                 bank[currentIndex] += 1
             }
             count += 1
@@ -52,8 +57,8 @@ private fun solve() {
     val memory = input.split("\\s".toRegex()).map { it.toInt() }.toList()
 
     val memoryBank = MemoryBank(memory.toMutableList())
-    val result = memoryBank.computeStepCount()
     println("Task1")
+    val result = memoryBank.computeStepCount()
     println(result)
     println("Task2")
     val result2 = memoryBank.computeStepCount()
