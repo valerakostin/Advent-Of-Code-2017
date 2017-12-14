@@ -1,8 +1,10 @@
 package day10
 
+
+import utils.KnotHashGenerator
 import utils.getLineFromResource
 
-private fun computeKnotTying(lengths: List<Int>, round: Int = 1): IntArray {
+fun computeKnotTying(lengths: List<Int>, round: Int = 1): IntArray {
     val data = IntArray(256) { i -> i }
 
     var currentPosition = 0
@@ -32,23 +34,8 @@ private fun task1(lengths: List<Int>) {
     println("Task1\n$checksum")
 }
 
-private fun task2(input: String) {
-
-    val lengths = input.map { it.toInt() }.toMutableList()
-    val additionalSequence = listOf(17, 31, 73, 47, 23)
-    lengths.addAll(additionalSequence)
-
-    val data = computeKnotTying(lengths, 64)
-
-    val hash = (0..15)
-            .map { data.sliceArray(it * 16..it * 16 + 15) }
-            .map {
-                it.fold(0)
-                { acc, value -> acc xor value }
-            }
-            .map { Integer.toHexString(it) }
-            .joinToString(separator = "") { it.format("%02X") }
-
+fun task2(input: String) {
+    val hash = KnotHashGenerator.generateHash(input)
     println("Task2\n$hash")
 }
 
@@ -60,6 +47,11 @@ private fun solve() {
 }
 
 fun main(argc: Array<String>) {
+
+    val v = "a".format("%02x")
+
+    println(v)
+
     println("Day10:")
     solve()
 }
