@@ -147,15 +147,11 @@ private fun task2(commands: List<Command>) {
     val processor1 = Processor2(0, commands, channel0In, channel1In)
     val processor2 = Processor2(1, commands, channel1In, channel0In)
 
-    while (true) {
+    while (!processor1.waiting || !processor2.waiting) {
         processor1.nextCommand()
         processor2.nextCommand()
-
-        if (processor1.waiting && processor2.waiting) {
-            println("${processor2.sendCounter}")
-            return
-        }
     }
+    println("${processor2.sendCounter}")
 }
 
 fun main(argc: Array<String>) {
